@@ -1,0 +1,358 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;500;600&display=swap');
+
+/* --- Global Styles --- */
+body {
+    font-family: 'Open Sans', sans-serif; /* Readable body font */
+    background: linear-gradient(135deg, #e0f7fa, #c5e7ed); /* Subtle blue gradient background */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Ensure body takes full viewport height */
+    display: flex; /* Use flexbox to center the container */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevent body scroll if container is fixed height */
+}
+
+/* --- Container Layout --- */
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 90%; /* Use percentage for flexibility */
+    max-width: 1200px; /* Max width for desktop */
+    height: 720px; /* Adjusted fixed height (you may need to fine-tune this) */
+    margin: 0 auto; /* Center horizontally */
+    border-radius: 20px; /* More rounded corners for a modern feel */
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white for a "glass" effect */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); /* Stronger, softer shadow */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle light border */
+    backdrop-filter: blur(5px); /* Glassmorphism effect */
+}
+
+/* --- Image Box (Column 1) --- */
+.image-box {
+    flex: 0 0 30%; /* Slightly more width for the image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0077b6, #004d80); /* Deep blue gradient background */
+    position: relative; /* For overlay */
+    height: 100%;
+}
+
+.image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.9; /* Slightly transparent to blend with background */
+    filter: saturate(1.1); /* Enhance colors slightly */
+    transition: opacity 0.3s ease;
+}
+
+.image-box img:hover {
+    opacity: 1; /* Full opacity on hover */
+}
+
+/* Optional: Subtle overlay on image */
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1); /* Darker transparent overlay */
+    pointer-events: none; /* Allows clicks to pass through */
+}
+
+
+/* --- Input Form Box (Column 2) --- */
+.input-box {
+    flex: 0 0 35%; /* Mid-width for the form */
+    padding: 35px; /* Generous padding */
+    background-color: #ffffff; /* White background */
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: auto; /* Enable scrolling for form if content overflows */
+    border-right: 1px solid #e0e0e0; /* Subtle separator line */
+}
+
+/* --- Result Box (Column 3) --- */
+.result-box {
+    flex: 0 0 35%; /* Same width as input box */
+    padding: 35px; /* Generous padding */
+    background-color: #ffffff;
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: auto; /* Enable scrolling for results if content overflows */
+}
+
+/* --- Headings --- */
+h2, h3 {
+    font-family: 'Montserrat', sans-serif; /* Modern heading font */
+    text-align: center;
+    color: #0056b3; /* Deeper blue for headings */
+    margin-bottom: 25px;
+    letter-spacing: 0.02em; /* Slight letter spacing */
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 36px; /* Larger main title */
+}
+
+h3.result-title { /* Specific style for the results title */
+    font-size: 28px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0f2f7; /* Underline for results section */
+}
+
+/* --- Form Grouping --- */
+.form-group {
+    margin-bottom: 20px; /* Space between form groups */
+}
+
+/* --- Labels --- */
+label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 17px; /* Slightly larger labels */
+    display: block;
+    margin-bottom: 8px; /* Space between label and input */
+    font-weight: 600;
+    color: #444;
+}
+
+/* --- Inputs & Selects --- */
+input[type="number"],
+select {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    width: 100%;
+    padding: 12px 15px; /* More padding and horizontal space */
+    border: 1px solid #d0d0d0; /* Soft gray border */
+    border-radius: 10px; /* More rounded */
+    box-sizing: border-box;
+    transition: all 0.3s ease; /* Smooth transitions for focus/hover */
+    background-color: #fcfcfc;
+}
+
+input[type="number"]:focus,
+select:focus {
+    border-color: #007bff; /* Vibrant blue on focus */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Subtle glow on focus */
+    outline: none; /* Remove default outline */
+    background-color: #ffffff; /* Ensure white background on focus */
+}
+
+/* --- Button --- */
+button {
+    font-family: 'Montserrat', sans-serif;
+    width: 100%;
+    padding: 16px; /* More padding for a bigger button */
+    margin-top: 35px; /* More space above button */
+    background: linear-gradient(90deg, #007bff, #0056b3); /* Vibrant blue gradient */
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 10px; /* More rounded */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.8px; /* More letter spacing */
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3); /* Stronger shadow */
+}
+
+button:hover {
+    background: linear-gradient(90deg, #0056b3, #004085); /* Darker gradient on hover */
+    transform: translateY(-3px); /* More pronounced lift effect */
+    box-shadow: 0 12px 25px rgba(0, 123, 255, 0.4); /* Enhanced shadow on hover */
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+/* --- Results Display --- */
+.result {
+    background-color: #e6f7ff; /* Lighter blue background for results */
+    border: 1px solid #b3e0ff;
+    padding: 25px; /* More internal padding */
+    border-radius: 12px; /* Nicer rounded corners */
+    box-shadow: inset 0 0 15px rgba(0, 119, 182, 0.08); /* Subtle inner shadow */
+    min-height: 200px; /* Ensure result box has some initial height */
+    display: flex; /* Flex container for results to stack nicely */
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.result-section h4 { /* For specific sections if you add them */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    color: #0056b3;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #cceeff; /* Subtle separator */
+    padding-bottom: 5px;
+}
+
+.result p {
+    margin: 14px 0; /* More spacing between result lines */
+    font-size: 17px; /* Clearer text */
+    line-height: 1.5;
+    color: #333;
+    display: flex; /* Use flex for icon alignment */
+    align-items: center;
+}
+
+.result p strong {
+    color: #0056b3; /* Highlight values */
+    font-weight: 600;
+    margin-right: 8px; /* Space between label and value */
+    flex-basis: 50%; /* Give strong half the width for alignment */
+}
+
+.result p span { /* Style for the actual value */
+    flex-grow: 1; /* Allow value to take remaining space */
+    text-align: right; /* Align value to the right */
+    font-weight: 500;
+}
+
+.result p i.fas { /* Icon styling */
+    color: #007bff; /* Icon color */
+    margin-right: 10px; /* Space between icon and text */
+    font-size: 1.1em;
+    width: 25px; /* Fixed width for icons to align text */
+    text-align: center;
+}
+
+/* Graph Image */
+#graph {
+    margin-top: 30px; /* More space above graph */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for the graph */
+    max-height: 400px; /* Constrain graph height */
+    object-fit: contain;
+    background-color: #fff; /* Ensure graph has a white background */
+    padding: 5px; /* Small padding inside border */
+}
+
+/* Error Messages */
+.error {
+    color: #c0392b; /* A more distinct red */
+    background-color: #fde6e6;
+    padding: 18px; /* More padding */
+    border-radius: 10px;
+    margin-top: 25px;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #f2c7c7;
+    display: flex; /* Flex for icon */
+    align-items: center;
+    justify-content: center;
+}
+.error i.fas {
+    margin-right: 10px;
+    color: #e74c3c;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column; /* Stack columns vertically */
+        height: auto; /* Allow height to expand */
+        max-width: 95%; /* Adjust max-width for smaller screens */
+        margin: 20px auto; /* Adjust margin */
+        border-radius: 15px; /* Keep consistent rounding */
+    }
+
+    .image-box,
+    .input-box,
+    .result-box {
+        width: 100%;
+        flex: none; /* Remove flex proportions */
+        height: auto; /* Allow height to adapt */
+        overflow-y: visible; /* Content can push height */
+        border-right: none; /* Remove vertical separator */
+        padding: 25px; /* Consistent padding when stacked */
+    }
+
+    .image-box {
+        height: 250px; /* Fixed height for image when stacked */
+        border-radius: 15px 15px 0 0; /* Rounded top corners */
+        border-bottom: 1px solid #eee; /* Separator when stacked */
+    }
+
+    .input-box {
+        border-bottom: 1px solid #eee; /* Separator between input and result */
+        border-radius: 0; /* No rounding */
+    }
+
+    .result-box {
+        border-bottom: none; /* No bottom border for the last box */
+        border-radius: 0 0 15px 15px; /* Rounded bottom corners */
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+    h3.result-title {
+        font-size: 24px;
+    }
+    label {
+        font-size: 16px;
+    }
+    input[type="number"], select {
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+    button {
+        font-size: 18px;
+        padding: 14px;
+    }
+    .result p {
+        font-size: 16px;
+    }
+    #graph {
+        max-height: 300px; /* Reduce graph height on smaller screens */
+    }
+}
+
+/* Very small screen adjustments */
+@media (max-width: 576px) {
+    .container {
+        border-radius: 10px;
+    }
+    .image-box, .input-box, .result-box {
+        padding: 20px; /* Reduce padding further */
+    }
+    h2 {
+        font-size: 28px;
+    }
+    h3.result-title {
+        font-size: 22px;
+    }
+    label {
+        font-size: 15px;
+    }
+    input[type="number"], select {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+    button {
+        font-size: 16px;
+        padding: 12px;
+    }
+    .result p {
+        font-size: 15px;
+    }
+    #graph {
+        max-height: 250px;
+    }
+}
