@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dive Gas Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="static/styles.css">
+    </head>
+<body>
+
+    <div class="container">
+        <div class="image-box">
+            <img src="static/images/diving.jpg" alt="Diver" />
+            <div class="image-overlay"></div> </div>
+
+        <div class="input-box">
+            <h2>Dive Gas Planning Calculator</h2>
+
+            <div class="form-group">
+                <label for="sac">SAC Rate (cf/min):</label>
+                <input type="number" id="sac" step="0.01" min="0.4" max="1.5" required>
+            </div>
+
+            <div class="form-group">
+                <label for="depth">Planned Depth (ft):</label>
+                <input type="number" id="depth" step="1" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tank">Tank Type:</label>
+                <select id="tank" required>
+                    <option value="AL40">AL40</option>
+                    <option value="AL80">AL80</option>
+                    <option value="LP80">LP80</option>
+                    <option value="LP83">LP83</option>
+                    <option value="LP95">LP95</option>
+                    <option value="LP104">LP104</option>
+                    <option value="LP120">LP120</option>
+                    <option value="HP80">HP80</option>
+                    <option value="HP100">HP100</option>
+                    <option value="HP120">HP120</option>
+                    <option value="HP130">HP130</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="config">Tank Configuration:</label>
+                <select id="config" required>
+                    <option value="single">Single</option>
+                    <option value="double">Double</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="start_pressure">Starting Pressure (PSI):</label>
+                <input type="number" id="start_pressure" min="500" max="4000" required>
+            </div>
+
+            <button onclick="calculateGas()">Calculate</button>
+        </div>
+
+        <div class="result-box">
+            <h3 class="result-title">Dive Plan Summary</h3> <div class="result" id="result">
+                <p>Enter your dive parameters and click 'Calculate' to see the plan.</p>
+                <img id="graph" style="display:none; margin-top: 20px; max-width: 100%;" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+    async function calculateGas() {
+        const sac = parseFloat(document.getElementById('sac').value);
+        const depth = parseFloat(document.getElementById('depth').value); // Parse depth to float
+        const tank = document.getElementById('tank').value;
+        const config = document.getElementById('config').value;
+        const start_pressure = parseFloat(document.getElementById('start_pressure').value); // Parse start_pressure to float
+
+        const resultDiv = document.getElementById('result');
+
+        // Basic frontend validation for required fields and SAC range
+        if (isNaN(sac) || isNaN(depth) || isNaN(start_pressure) || !tank || !config) {
+            resultDiv.innerHTML = `<p style="color: red;">Please fill in all fields with valid numbers.</p>`;
+            return;
+        }
+
+        if (sac < 0.4 || sac > 1.5) { // Updated range check as per your HTML min/max for SAC
+            resultDiv.innerHTML = `<p style="color: red;">SAC must be between 0.4 and 1.5 cf/min.</p>`;
+            return;
+        }
+
+        // Now, send the request to the backend.
+        // Let the Python backend handle complex dive logic validations (like turn_pressure vs minimum_gas).
+        try {
+            const response = await fetch('/calculate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sac, depth, tank, config, start_pressure })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                resultDiv.innerHTML = `
+                    <div class="result-section">
+                        <h4>Key Metrics</h4>
+                        <p><i class="fas fa-arrow-down"></i> <strong>Minimum Gas:</strong> <span>${data.minimum_gas} PSI</span></p>
+                        <p><i class="fas fa-undo-alt"></i> <strong>Turn Pressure:</strong> <span>${data.turn_pressure} PSI</span></p>
+                        <p><i class="fas fa-gas-pump"></i> <strong>Gas Before Turn:</strong> <span>${data.gas_before_turn_cf} cf</span></p>
+                        <p><i class="fas fa-clock"></i> <strong>Time Before Turn:</strong> <span>${data.time_before_turn} minutes</span></p>
+                        <p><i class="fas fa-stopwatch"></i> <strong>Total Dive Time:</strong> <span>${data.total_dive_time_min} minutes</span></p>
+                        <p><i class="fas fa-tint"></i> <strong>Usable Gas:</strong> <span>${data.usable_gas} PSI</span></p>
+                    </div>
+                    <img id="graph" style="margin-top: 20px; max-width: 100%;" src="data:image/png;base64,${data.graph_img}" />
+                `;
+                document.getElementById('graph').style.display = 'block';
+            } else {
+                // Display the specific error message from the backend
+                resultDiv.innerHTML = `<p class="error"><i class="fas fa-exclamation-triangle"></i> Error: ${data.error}</p>`;
+            }
+        } catch (error) {
+            console.error('Network or parsing error:', error);
+            resultDiv.innerHTML = `<p class="error"><i class="fas fa-exclamation-triangle"></i> An unexpected error occurred. Please try again.</p>`;
+        }
+    }
+    </script>
+</body>
+</html>
